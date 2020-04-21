@@ -3,6 +3,7 @@
 
 #include "Memory.h"
 #include "Operations.h"
+#include "Cache.h"
 
 using namespace std;
 
@@ -79,10 +80,9 @@ int main(){
   cout << "Initialize the RAM: ";
   cin >> filename;
   cout << "init-ram 0x00 0xff" << endl;
+  Memory MyRam = Memory(filename);
   cout << "ram succesfully initialized!" << endl;
   cout << endl;
-
-  Memory MyRam = Memory(filename);
 
   //Cache configuring
   //variables
