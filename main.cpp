@@ -54,7 +54,6 @@ int menu(Memory ram){ //Should also take in a cache object, when written
   {
     //TESTED
     ram.view();
-    cout << endl;
     return 1;
   } else if (choice == "cache-dump")
   {
@@ -77,12 +76,10 @@ int main(){
   //TESTED
   cout << "*** Welcome to the cache simulator ***" << endl;
   string filename;
-  cout << "Initialize the RAM: ";
-  cin >> filename;
+  cout << "Initialize the RAM: " << endl;
   cout << "init-ram 0x00 0xff" << endl;
-  Memory MyRam = Memory(filename);
+  Memory MyRam = Memory("input.txt");
   cout << "ram succesfully initialized!" << endl;
-  cout << endl;
 
   //Cache configuring
   //variables
@@ -109,9 +106,11 @@ int main(){
   cout << "write miss policy: ";
   cin >> miss_policy;
   cout << "cache succesfully configured!" << endl;
-  cout << endl;
 
-  menu(MyRam);
+  int loop_conditional = 1;
+  while (loop_conditional == 1){
+    loop_conditional = menu(MyRam);
+  };
 
 
   return 0;
