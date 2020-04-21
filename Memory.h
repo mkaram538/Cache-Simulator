@@ -31,26 +31,26 @@ public:
     }
   };
 
-  string getValue(int index){
-    return this->ram[index];
-  }
-  //Having some weird print bugs, will fix
-  /*
+  // Prints out the memory object's information
+  // and the contents of the ram vector in rows of 8 bytes
+  // TESTED
+
   void view(){
     string line;
     cout << "memory_size:" << size << endl;
     cout << "memory_content:" << endl;
     cout << "Address:Data" << endl;
+
     for (int i = 0; i < 256/8;i++){
-      line =  BaseTentoHex(i*8) + ":";
+      line = BaseTentoHex(i*8) + ":";
       for (int p = 0; p < 8; p++){
-        line = line + getValue(i*8 + p) + " ";
+        line = line + ram[i*8 + p].substr(0,2) + " ";
       }
       cout << line << endl;
     }
     return;
-  };
-  */
+  }
+
   // Opens ram.txt and prints each value in ram on a seperate line.
   void dump(){
     ofstream ofs;

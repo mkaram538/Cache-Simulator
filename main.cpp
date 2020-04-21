@@ -51,7 +51,9 @@ int menu(Memory ram){ //Should also take in a cache object, when written
     return 1;
   } else if (choice == "memory-view")
   {
-    //ram.view();
+    //TESTED
+    ram.view();
+    cout << endl;
     return 1;
   } else if (choice == "cache-dump")
   {
@@ -70,7 +72,6 @@ int menu(Memory ram){ //Should also take in a cache object, when written
 }
 
 int main(){
-  cout << BaseTentoHex(11) << endl;
   //Testing the Memory Creation
   //TESTED
   cout << "*** Welcome to the cache simulator ***" << endl;
@@ -93,6 +94,7 @@ int main(){
   int miss_policy;
 
   //Variable gathering, in the proper form
+
   cout << "configure the cache:" << endl;
   cout << "cache size: ";
   cin >> cache_size;
