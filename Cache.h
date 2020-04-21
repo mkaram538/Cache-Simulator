@@ -6,32 +6,31 @@ using namespace std;
 #include <vector>
 #include <string>
 
-struct block
-{
-  int num_bytes;
-  vector<string> bytes;
-
-  block(vector<string> byte_list)
-  {
-    bytes = byte_list;
-    num_bytes = byte_list.size();
-  }
-};
-
+// Contains one block element, which is a vector of strings, each index
+// holding a byte. The line also contains a valid bit and tag bit, and
+// a variable declaring number of bytes which is equal to block_size
 struct line
 {
-  int num_blocks;
-  int valid_bit;
+  int valid_bit=0;
   int tag_bit;
-  vector<block> blocks;
+  int num_bytes;
+  vector<string> block;
 
-  line(vector<block> block_list)
+  line(vector<string> byte_list, int tag, int valid)
   {
-    blocks = block_list;
-    num_blocks = block_list.size();
+    block = byte_list;
+    num_bytes = byte_list.size();
+    tag_bit = tag;
+    valid_bit = valid;
+  }
+
+  // Returns reference to the string, so we can alter it easier
+  string& operator[](int index){
+    return block[index];
   }
 };
 
+// Contains a vector of lines, with num_lines many line objects.
 struct set
 {
   int num_lines;
@@ -41,6 +40,11 @@ struct set
   {
     lines = line_list;
     num_lines = line_list.size();
+  }
+
+  // Returns reference to line at the given index, so we can alter it easier
+  line& operator[](int index){
+    return lines[index];
   }
 };
 
@@ -54,6 +58,9 @@ private:
   int miss_policy;
   vector<set> sets;
 public:
+
+  // Add code to create set_size * num sets lines, with empty values and
+  // valid bits of 0.
   Cache(int cache, int block, int set, int repl, int hit, int miss) : cache_size(cache),
       block_size(block), set_size(set), repl_policy(repl), hit_policy(hit),
       miss_policy(miss)
