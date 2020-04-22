@@ -69,6 +69,8 @@ int menu(Memory ram, Cache cache){ //Should also take in a cache object, when wr
     // This will be a condtional that ends the loop of calling menu().
     return 0;
   }
+
+  return 0;
 }
 
 int main(){

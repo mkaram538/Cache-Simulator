@@ -48,6 +48,7 @@ struct sets
   bool isPresentAndValid(int tag) {
     for (int i = 0; i < num_lines; i++) {
       if (lines[i].tag_bit == tag && lines[i].valid_bit == 1) {
+        cout << lines[i].valid_bit << " ";
         return true;
       }
     }
@@ -62,6 +63,8 @@ struct sets
         return i;
       }
     }
+
+    return -1;
   }
 
   // Returns reference to line at the given index, so we can alter it easier
@@ -101,9 +104,12 @@ public:
     t_bits = 8 - s_bits - b_bits; // Address is always 8 bits for this assignment
 
     // The following initializes a cold cache, where each line has no data and valid bit = 0
-    vector<string> emptyList(block_size); // Empty vector with size = block_size
+    vector<string> emptyBlock(block_size); // Empty vector with size = block_size
+    for (int i = 0; i < block_size; i++) {
+      emptyBlock[i] = ("0");
+    }
     vector<line> coldLines;
-    line coldLine(emptyList, 0, 0, 0); // Represents an empty cache line
+    line coldLine(emptyBlock, 0, 0, 0); // Represents an empty cache line
     for (int i = 0; i < set_size; i++) {
       coldLines.push_back(coldLine);
     }
@@ -141,7 +147,32 @@ public:
     } else {
       // Miss
       num_cache_misses++;
-      
+      vector<string> blockFromRam = ram.getBlock(HexToInt(address) / block_size, block_size);
+      int lineNum; // Index of the line to replace, determined by the replacement policies
+      // TODO: Replacement Policies
+      if (repl_policy == 1) { // random_replcaement
+
+      } else if (repl_policy == 2) { // least_recently_used
+
+      }
+      // Write the block retrieved from RAM to the line determined by the replacement policy
+      for (int i = 0; i < block_size; i++) {
+        my_cache[set][lineNum][i] = blockFromRam[i];
+      }
+      my_cache[set][lineNum].valid_bit = 1;
+      my_cache[set][lineNum].dirty_bit = 0;
+      my_cache[set][lineNum].tag_bit = tag;
+      // The data that is read from the cache line to be returned.
+      string readData = my_cache[set][lineNum][block];
+
+      cout << "CHANGE OUTPUT ONCE REPLACEMENT POLICY IS FINISHED" << endl;
+      cout << "set:" << set << endl;
+      // Assuming tag is in base ten, otherwise change to BaseTentoHex(tag)
+      cout << "tag:" << tag << endl;
+      cout << "hit:no" << endl;
+      cout << "eviction_line:-1" << endl;
+      cout << "ram_address:-1" << endl;
+      cout << "data:" << readData << endl;
     }
   }
 
@@ -167,6 +198,7 @@ public:
         // Update cache
         my_cache[set][lineNum][block] = remove0x(data); // Updates specific byte in cache
         my_cache[set][lineNum].valid_bit = 1;
+        // Update RAM block with entire block from cache
         ram.writeBlock(HexToInt(address) / block_size, my_cache[set][lineNum].block);
       } else if (hit_policy == 2) { // write-back
         // Update cache
@@ -190,7 +222,7 @@ public:
       if (miss_policy == 1) { // write-allocate
 
       } else if (miss_policy == 2) { // no-write-allocate
-
+        ram.writeByte(HexToInt(address), remove0x(data)); // Update RAM
       }
     }
   }
@@ -198,9 +230,12 @@ public:
   void flush() {
     my_cache.clear();
     // The following initializes a cold cache, where each line has no data and valid bit = 0
-    vector<string> emptyList(block_size); // Empty vector with size = block_size
+    vector<string> emptyBlock(block_size); // Empty vector with size = block_size
+    for (int i = 0; i < block_size; i++) {
+      emptyBlock[i] = ("0");
+    }
     vector<line> coldLines;
-    line coldLine(emptyList, 0, 0, 0); // Represents an empty cache line
+    line coldLine(emptyBlock, 0, 0, 0); // Represents an empty cache line
     for (int i = 0; i < set_size; i++) {
       coldLines.push_back(coldLine);
     }
@@ -210,6 +245,7 @@ public:
     }
   }
 
+  // TESTED for a cold cache. Not sure if the tag bit should be in Hex with 0x or just the Hex value.
   void view() {
     cout << "cache_size:" << cache_size << endl;
     cout << "data_block_size:" << block_size << endl;
@@ -244,6 +280,7 @@ public:
     }
   }
 
+  // TESTED for cold cache (prints all 0's).
   void dump() {
     ofstream fileWriter("cache.txt");
     for (int i = 0; i < num_sets; i++) {
