@@ -71,7 +71,19 @@ public:
     }
   };
 
+  // Writes the block to RAM
+  void writeBlock(int block_num, const vector<string> block) {
+    // 
+    int offset = block_num * block.size();
+    for (int i = 0; i < block.size(); i++) {
+      ram[i + offset] = block[i];
+    }
+  }
 
+  // Gets block from RAM given the 
+  void getBlock(int block_num, int block_size) {
+    
+  }
 
 
 };

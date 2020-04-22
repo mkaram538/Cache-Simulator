@@ -14,7 +14,7 @@ using namespace std;
 // with hex numbers
 // if user inputs quit, return 0 and that'll be the loop breaking condition
 
-int menu(Memory ram){ //Should also take in a cache object, when written
+int menu(Memory ram, Cache cache){ //Should also take in a cache object, when written
   cout << "*** Cache simulator menu ***" << endl;
   cout << "type one command: " << endl;
   cout << "1. cache-read" << endl;
@@ -34,21 +34,21 @@ int menu(Memory ram){ //Should also take in a cache object, when written
   {
     string address;
     cin >> address;
-    //call cache.read(address);
+    cache.read(address);
     return 1;
   } else if (choice == "cache-write")
   {
     string address, value;
     cin >> address >> value;
-    //call cache.write(value, address);
+    cache.write(address, value);
     return 1;
-  } else if (choice == "cache-flash")
+  } else if (choice == "cache-flush")
   {
-    //call cache.clear();
+    cache.flush();
     return 1;
   } else if (choice == "cache-view")
   {
-    //call cache.view();
+    cache.view();
     return 1;
   } else if (choice == "memory-view")
   {
@@ -57,7 +57,7 @@ int menu(Memory ram){ //Should also take in a cache object, when written
     return 1;
   } else if (choice == "cache-dump")
   {
-    //call cache.dump();
+    cache.dump();
     return 1;
   } else if (choice == "memory-dump")
   {
@@ -107,9 +107,11 @@ int main(){
   cin >> miss_policy;
   cout << "cache succesfully configured!" << endl;
 
+  Cache cache(MyRam, cache_size, block_size, associativity, repl_policy, hit_policy, miss_policy);
+
   int loop_conditional = 1;
   while (loop_conditional == 1){
-    loop_conditional = menu(MyRam);
+    loop_conditional = menu(MyRam, cache);
   };
 
 
