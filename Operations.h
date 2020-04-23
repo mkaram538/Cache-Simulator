@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include <iostream>
+#include <math.h>
 #include "Memory.h"
 
 using namespace std;
@@ -38,6 +39,62 @@ string BaseTentoHex(int number){
   hex += IntToString(number/16);
   hex += IntToString(number%16);
   return hex;
+}
+
+// Same as ^ but without 0x
+string BaseTentoHexnoX(int number){
+  string hex = "";
+  hex += IntToString(number/16);
+  hex += IntToString(number%16);
+  return hex;
+}
+
+// Converts Hex "0x__" to binary
+// TESTED
+string HexToBinary(string number) {
+  map<char, string> numbers = {
+    {'0',"0000"}, {'1',"0001"}, {'2',"0010"}, {'3',"0011"}, {'4',"0100"},
+    {'5',"0101"}, {'6',"0110"}, {'7',"0111"}, {'8',"1000"}, {'9',"1001"},
+    {'A',"1010"}, {'B',"1011"}, {'C',"1100"}, {'D',"1101"},
+    {'E',"1110"}, {'F',"1111"}
+  };
+  string binary = "";
+  // Starts at index 2 to ignore the 0x
+  for (int i = 2; i < number.size(); i++) {
+    binary += numbers[number[i]];
+  }
+  // If the binary address is not 8 bits, add leading 0's.
+  if (binary.size() != 8) {
+    int numLead = 8 - binary.size();
+    for (int i = 0; i < numLead; i++) {
+      binary = "0" + binary;
+    }
+  }
+
+  return binary;
+}
+
+// Converts a binary string to decimal.
+// TESTED
+int BinaryToInt(string binary) {
+  int decimal = 0;
+  for (int i = 0; i < binary.size(); i++) {
+    if (binary[i] == '1') {
+      decimal += pow(2, binary.size() - 1 - i);
+    }
+  }
+  return decimal;
+}
+
+// Simple Hex to Integer for now
+int HexToInt(string hex) {
+  return BinaryToInt(HexToBinary(hex));
+}
+
+// Removes 0x from a hex string. E.g. 0xFF -> FF
+// TESTED
+string remove0x(string hex) {
+  return hex.substr(2, hex.size() - 2);
 }
 
 #endif
