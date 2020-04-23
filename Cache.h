@@ -74,6 +74,29 @@ struct sets
     return -1;
   }
 
+  // Returns true if there is an address line with matching tag and has valid bit 1.
+  bool isPresentAndValid(int tag) {
+    for (int i = 0; i < num_lines; i++) {
+      if (lines[i].tag_bit == tag && lines[i].valid_bit == 1) {
+        cout << lines[i].valid_bit << " ";
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // Returns the index of the line with matching tag. Makes sure that the valid bit
+  // is also 1 in the case of duplicate tags in the same set.
+  int getLineIndexOfTag(int tag) {
+    for (int i = 0; i < num_lines; i++) {
+      if (lines[i].tag_bit == tag && lines[i].valid_bit == 1) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
   // Returns reference to line at the given index, so we can alter it easier
   line& operator[](int index){
     return lines[index];
