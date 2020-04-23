@@ -71,7 +71,31 @@ public:
     }
   };
 
+  // Writes the block to RAM
+  void writeBlock(int block_num, const vector<string> block) {
+    //
+    int offset = block_num * block.size();
+    for (int i = 0; i < block.size(); i++) {
+      ram[i + offset] = block[i];
+    }
+  }
 
+  // Overrite a single byte in RAM, used for write-miss no allocate policy
+  // byte_index is an integer between 0 - (block_size - 1)
+  void writeByte(int byte_index, string byte) {
+    ram[byte_index] = byte;
+  }
+
+  // Gets block from RAM given the block number and the size of the block
+  vector<string> getBlock(int block_num, int block_size) {
+    vector<string> block(block_size);
+    int offset = block_num * block.size();
+    for (int i = 0; i < block_size; i++) {
+      block[i] = ram[i + offset];
+    }
+
+    return block;
+  }
 
 
 };
