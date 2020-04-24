@@ -14,7 +14,7 @@ using namespace std;
 // with hex numbers
 // if user inputs quit, return 0 and that'll be the loop breaking condition
 
-int menu(Memory ram, Cache cache){ //Should also take in a cache object, when written
+int menu(Memory & ram, Cache & cache){ //Should also take in a cache object, when written
   cout << "*** Cache simulator menu ***" << endl;
   cout << "type one command: " << endl;
   cout << "1. cache-read" << endl;
