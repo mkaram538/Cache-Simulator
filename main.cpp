@@ -19,7 +19,7 @@ int menu(Memory & ram, Cache & cache){ //Should also take in a cache object, whe
   cout << "type one command: " << endl;
   cout << "1. cache-read" << endl;
   cout << "2. cache-write" << endl;
-  cout << "3. cache-flash" << endl;
+  cout << "3. cache-flush" << endl;
   cout << "4. cache-view" << endl;
   cout << "5. memory-view" <<  endl;
   cout << "6. cache-dump" << endl;

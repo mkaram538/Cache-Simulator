@@ -90,7 +90,7 @@ private:
 
   int t_bits, s_bits, b_bits;
   int num_sets;
-  Memory ram;
+  Memory& ram;
 
   // Stats
   int num_cache_hits = 0;
@@ -126,7 +126,8 @@ public:
   }
 
   void read(string address) {
-    //TESTED: for read hit and read miss with LRU, haven't tested random replacement
+    //TESTED: for read hit and read miss with LRU and random, haven't
+    // tested or added the option for LFU but have written it.
     // Convert address from hex to binary
     string binaryAddress = HexToBinary(address);
 
@@ -200,6 +201,8 @@ public:
     }
   }
 
+  //TESTED write miss and hit for 1/1/1 and 1/2/2, will go into 2/?/?
+  //later for further testing 
   void write(string address, string data) {
     // Convert address from hex to binary
     string binaryAddress = HexToBinary(address);
@@ -239,18 +242,73 @@ public:
       cout << "eviction_line:-1" << endl;
       cout << "ram_address:-1" << endl;
       cout << "data:" << data << endl;
-      cout << "dity_bit:" << dirtyBitChange << endl;
+      cout << "dirty_bit:" << dirtyBitChange << endl;
     } else {
       // Miss, either the tag was not present or the valid bit was 0.
+      int lineNum;
+      bool dirtyBitChange = false;
       num_cache_misses++;
       if (miss_policy == 1) { // write-allocate
+        vector<string> blockFromRam = ram.getBlock(HexToInt(address) / block_size, block_size);
+        bool empty_line = false;
+        for (int i = 0; i < set_size; i++){
+          if (my_cache[set][i].valid_bit == 0){
+            lineNum = i;
+            empty_line = true;
+            break;
+          }
+        }
+        if (empty_line == false){
+          if (repl_policy == 1) { // random_replcaement
+            srand(time(NULL));
+            lineNum = rand() % set_size;
+          } else if (repl_policy == 2) { // least_recently_used
+            if (set_size == 1){
+              lineNum = 0;
+            } else {
+              lineNum = my_cache[set].repl.LRU();
+            }
+          }
+        }
+        // Takes the block from RAM and write is to cache
+        for (int i = 0; i < block_size; i++) {
+          my_cache[set][lineNum][i] = blockFromRam[i];
+        }
+        my_cache[set][lineNum].valid_bit = 1;
+        my_cache[set][lineNum].dirty_bit = 0;
+        my_cache[set][lineNum].tag_bit = tag;
+
+        if (hit_policy == 1) { // write-through
+          // Update cache
+          my_cache[set][lineNum][block] = remove0x(data); // Updates specific byte in cache
+          my_cache[set][lineNum].valid_bit = 1;
+          // Update RAM block with entire block from cache
+          ram.writeBlock(HexToInt(address) / block_size, my_cache[set][lineNum].block);
+        } else if (hit_policy == 2) { // write-back
+          // Update cache
+          my_cache[set][lineNum][block] = remove0x(data);
+          my_cache[set][lineNum].valid_bit = 1;
+          my_cache[set][lineNum].dirty_bit = 1;
+          dirtyBitChange = true;
+        }
 
       } else if (miss_policy == 2) { // no-write-allocate
         ram.writeByte(HexToInt(address), remove0x(data)); // Update RAM
+        lineNum = -1; //I don't know what this value is supposed to be,
+        // because we are not evicting a line, but it's not a write-hit
       }
+      cout << "set:" << set << endl;
+      // Assuming tag is in base ten, otherwise change to BaseTentoHex(tag)
+      cout << "tag:" << tag << endl;
+      cout << "write_hit:no" << endl;
+      cout << "eviction_line:" << lineNum << endl;
+      cout << "ram_address:" << address << endl;
+      cout << "data:" << data << endl;
+      cout << "dirty_bit:" << dirtyBitChange << endl;
+
     }
   }
-
+  //TESTED
   void flush() {
     my_cache.clear();
     // The following initializes a cold cache, where each line has no data and valid bit = 0
@@ -269,7 +327,7 @@ public:
     }
   }
 
-  // TESTED for a cold cache. Not sure if the tag bit should be in Hex with 0x or just the Hex value.
+  // TESTED
   void view() {
     cout << "cache_size:" << cache_size << endl;
     cout << "data_block_size:" << block_size << endl;

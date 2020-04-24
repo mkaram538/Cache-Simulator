@@ -84,6 +84,21 @@ public:
   int LRU() {
     return head->index;
   }
+
+  int LFU() {
+    Node* current = head;
+    int min_occur = current->uses;
+    int min_index = 0;
+    int index = 0;
+    while (current->next){
+      if (current->uses < min_occur){
+        min_index = index;
+      }
+      current = current->next;
+      index++;
+    }
+    return min_index;
+  }
 };
 
 #endif
