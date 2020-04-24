@@ -80,6 +80,7 @@ public:
     tail = current;
   }
 
+  //TESTED
   int LRU() {
     return head->index;
   }

@@ -55,7 +55,6 @@ struct sets
   bool isPresentAndValid(int tag) {
     for (int i = 0; i < num_lines; i++) {
       if (lines[i].tag_bit == tag && lines[i].valid_bit == 1) {
-        cout << lines[i].valid_bit << " ";
         return true;
       }
     }
@@ -127,6 +126,7 @@ public:
   }
 
   void read(string address) {
+    //TESTED: for read hit and read miss with LRU, haven't tested random replacement
     // Convert address from hex to binary
     string binaryAddress = HexToBinary(address);
 
@@ -190,7 +190,6 @@ public:
       string readData = my_cache[set][lineNum][block];
       my_cache[set].repl.access(lineNum);
 
-      cout << "CHANGE OUTPUT ONCE REPLACEMENT POLICY IS FINISHED" << endl;
       cout << "set:" << set << endl;
       // Assuming tag is in base ten, otherwise change to BaseTentoHex(tag)
       cout << "tag:" << tag << endl;
@@ -298,7 +297,7 @@ public:
         line thisLine = my_cache[i][j];
         cout << thisLine.valid_bit << " " << thisLine.dirty_bit << " " << BaseTentoHexnoX(thisLine.tag_bit) << " ";
         for (int k = 0; k < block_size; k++) {
-          cout << thisLine[k] << " ";
+          cout << thisLine[k].substr(0,2) << " ";
         }
         cout << endl;
       }
