@@ -25,8 +25,9 @@ public:
     //line by line adding the byte in string form to the vector
     //TESTED
     for (int i = 0; i < 256; i++){
-      getline(ifs,line);
-      ram.push_back(line);
+      string byte;
+      ifs >> byte;
+      ram.push_back(byte);
       size++;
     }
   };

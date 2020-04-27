@@ -112,7 +112,7 @@ public:
     // The following initializes a cold cache, where each line has no data and valid bit = 0
     vector<string> emptyBlock(block_size); // Empty vector with size = block_size
     for (int i = 0; i < block_size; i++) {
-      emptyBlock[i] = ("0");
+      emptyBlock[i] = ("00");
     }
     vector<line> coldLines;
     line coldLine(emptyBlock, 0, 0, 0); // Represents an empty cache line
@@ -153,7 +153,7 @@ public:
       cout << "hit:yes" << endl;
       cout << "eviction_line:-1" << endl;
       cout << "ram_address:-1" << endl;
-      cout << "data:" << readData << endl;
+      cout << "data:0x" << readData << endl;
     } else {
       // Miss
       num_cache_misses++;
@@ -197,7 +197,7 @@ public:
       cout << "hit:no" << endl;
       cout << "eviction_line:" << lineNum << endl;
       cout << "ram_address:" << address << endl;
-      cout << "data:" << readData << endl;
+      cout << "data:0x" << readData << endl;
     }
   }
 
@@ -314,7 +314,7 @@ public:
     // The following initializes a cold cache, where each line has no data and valid bit = 0
     vector<string> emptyBlock(block_size); // Empty vector with size = block_size
     for (int i = 0; i < block_size; i++) {
-      emptyBlock[i] = ("0");
+      emptyBlock[i] = ("00");
     }
     vector<line> coldLines;
     line coldLine(emptyBlock, 0, 0, 0); // Represents an empty cache line
