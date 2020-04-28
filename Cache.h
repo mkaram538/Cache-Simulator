@@ -177,6 +177,7 @@ public:
             lineNum = 0;
           } else {
             lineNum = my_cache[set].repl.LRU();
+            my_cache[set].repl.access(lineNum);
           }
         }
       }
@@ -189,7 +190,6 @@ public:
       my_cache[set][lineNum].tag_bit = tag;
       // The data that is read from the cache line to be returned.
       string readData = my_cache[set][lineNum][block];
-      my_cache[set].repl.access(lineNum);
 
       cout << "set:" << set << endl;
       // Assuming tag is in base ten, otherwise change to BaseTentoHex(tag)
