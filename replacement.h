@@ -80,6 +80,21 @@ public:
     tail = current;
   }
 
+  void clear(int search){
+    Node* current = head;
+    if (head->index == search){
+      current->uses = 0;
+      return;
+    } else if (tail->index == search){
+      current->uses = 0;
+      return;
+    }
+    while (current->index != search){
+      current = current->next;
+    }
+    current->uses = 0;
+  }
+
   //TESTED
   int LRU() {
     return head->index;
