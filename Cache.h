@@ -177,6 +177,16 @@ public:
             lineNum = 0;
           } else {
             lineNum = my_cache[set].repl.LRU();
+            my_cache[set].repl.clear(lineNum);
+            my_cache[set].repl.access(lineNum);
+          }
+        } else if (repl_policy == 3) {
+          if (set_size == 1){
+            lineNum = 0;
+          } else {
+            lineNum = my_cache[set].repl.LFU();
+            my_cache[set].repl.clear(lineNum);
+            my_cache[set].repl.access(lineNum);
           }
         }
       }
@@ -189,7 +199,6 @@ public:
       my_cache[set][lineNum].tag_bit = tag;
       // The data that is read from the cache line to be returned.
       string readData = my_cache[set][lineNum][block];
-      my_cache[set].repl.access(lineNum);
 
       cout << "set:" << set << endl;
       // Assuming tag is in base ten, otherwise change to BaseTentoHex(tag)
@@ -202,7 +211,7 @@ public:
   }
 
   //TESTED write miss and hit for 1/1/1 and 1/2/2, will go into 2/?/?
-  //later for further testing 
+  //later for further testing
   void write(string address, string data) {
     // Convert address from hex to binary
     string binaryAddress = HexToBinary(address);
@@ -219,6 +228,7 @@ public:
       // Hit, both the tag matched and the valid bit was 1.
       num_cache_hits++;
       int lineNum = my_cache[set].getLineIndexOfTag(tag);
+      my_cache[set].repl.access(lineNum);
       bool dirtyBitChange = false;
 
       if (hit_policy == 1) { // write-through
@@ -268,6 +278,12 @@ public:
             } else {
               lineNum = my_cache[set].repl.LRU();
             }
+          } else if (repl_policy == 3) {
+            if (set_size == 1){
+              lineNum = 0;
+            } else {
+              lineNum = my_cache[set].repl.LFU();
+            }
           }
         }
         // Takes the block from RAM and write is to cache
@@ -277,6 +293,8 @@ public:
         my_cache[set][lineNum].valid_bit = 1;
         my_cache[set][lineNum].dirty_bit = 0;
         my_cache[set][lineNum].tag_bit = tag;
+        my_cache[set].repl.clear(lineNum);
+        my_cache[set].repl.access(lineNum);
 
         if (hit_policy == 1) { // write-through
           // Update cache
@@ -336,6 +354,8 @@ public:
       cout << "replacement_policy:random_replacement" << endl;
     } else if (repl_policy == 2) {
       cout << "replacement_policy:least_recently_used" << endl;
+    } else if (repl_policy == 3) {
+      cout << "replacement_policy:least_frequently_used" << endl;
     }
     if (hit_policy == 1) {
       cout << "write_hit_policy:write_through" << endl;
@@ -365,13 +385,22 @@ public:
   // TESTED for cold cache (prints all 0's).
   void dump() {
     ofstream fileWriter("cache.txt");
-    for (int i = 0; i < num_sets; i++) {
+    for (int i = 0; i < num_sets-1; i++) {
       for (int j = 0; j < set_size; j++) {
         for (int k = 0; k < block_size; k++) {
           fileWriter << my_cache[i][j][k] << " ";
         }
         fileWriter << endl;
       }
+    }
+    for (int j = 0; j < set_size-1; j++) {
+      for (int k = 0; k < block_size; k++) {
+        fileWriter << my_cache[num_sets-1][j][k] << " ";
+      }
+      fileWriter << endl;
+    }
+    for (int k = 0; k < block_size; k++) {
+      fileWriter << my_cache[num_sets-1][set_size-1][k] << " ";
     }
     fileWriter.close();
   }
