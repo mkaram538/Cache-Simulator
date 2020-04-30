@@ -124,11 +124,12 @@ public:
     int min_occur = current->uses;
     int min_index = current->index;
     int index = 0;
-    while (current->next){
+    while (current){
       if (current->uses < min_occur){
-        min_index = index;
+        min_index = current->index;
+        min_occur = current->uses;
       } else if (current->uses == min_occur && index < min_index){
-        min_index = index;
+        min_index = current->index;
       }
       current = current->next;
       index++;
