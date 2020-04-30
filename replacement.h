@@ -116,6 +116,8 @@ public:
     while (current->next){
       if (current->uses < min_occur){
         min_index = index;
+      } else if (current->uses == min_occur && index < min_index){
+        min_index = index;
       }
       current = current->next;
       index++;
