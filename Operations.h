@@ -13,6 +13,7 @@
 #include <string>
 #include <iostream>
 #include <math.h>
+#include <bitset>
 #include "Memory.h"
 
 using namespace std;
@@ -81,6 +82,20 @@ string HexToBinary(string number) {
 
   return binary;
 }
+
+// Converts decimal to 256-bit binary. Can be trimmed by BinaryTrim.
+string DecimalToBinary(int dec) {
+    return std::bitset<256>(dec).to_string();
+}
+
+// Trims a binary string to 'bits' number of bits.
+string BinaryTrim(string binary, int bits) {
+    string trimmedBinary;
+    for (int i = binary.size() - bits; i < binary.size(); i++) {
+        trimmedBinary += binary[i];
+    }
+    return trimmedBinary;
+} 
 
 // Converts a binary string to decimal.
 // TESTED

@@ -201,6 +201,16 @@ public:
           }
         }
       }
+
+      // Prior to eviction, if dirty bit is set update RAM with this block.
+      if (my_cache[set][lineNum].dirty_bit == 1) {
+        string binaryTag = BinaryTrim(DecimalToBinary(my_cache[set][lineNum].tag_bit), t_bits);
+        string binaryIndex = BinaryTrim(DecimalToBinary(set), s_bits);
+        string binaryOffset(b_bits, '0');
+        string address = binaryTag + binaryIndex + binaryOffset;
+        ram.writeBlock(BinaryToInt(address) / block_size, my_cache[set][lineNum].block);
+      }
+      
       // Write the block retrieved from RAM to the line determined by the replacement policy
       for (int i = 0; i < block_size; i++) {
         my_cache[set][lineNum][i] = blockFromRam[i];
@@ -301,6 +311,16 @@ public:
             }
           }
         }
+
+        // Prior to eviction, if dirty bit is set update RAM with this block.
+        if (my_cache[set][lineNum].dirty_bit == 1) {
+          string binaryTag = BinaryTrim(DecimalToBinary(my_cache[set][lineNum].tag_bit), t_bits);
+          string binaryIndex = BinaryTrim(DecimalToBinary(set), s_bits);
+          string binaryOffset(b_bits, '0');
+          string address = binaryTag + binaryIndex + binaryOffset;
+          ram.writeBlock(BinaryToInt(address) / block_size, my_cache[set][lineNum].block);
+        }
+
         // Takes the block from RAM and write is to cache
         for (int i = 0; i < block_size; i++) {
           my_cache[set][lineNum][i] = blockFromRam[i];
@@ -346,7 +366,11 @@ public:
     for (int i = 0; i < num_sets; i++) {
       for (int j = 0; j < set_size; j++) {
         if (my_cache[i][j].dirty_bit == 1) {
-
+          string binaryTag = BinaryTrim(DecimalToBinary(my_cache[i][j].tag_bit), t_bits);
+          string binaryIndex = BinaryTrim(DecimalToBinary(i), s_bits);
+          string binaryOffset(b_bits, '0');
+          string address = binaryTag + binaryIndex + binaryOffset;
+          ram.writeBlock(BinaryToInt(address) / block_size, my_cache[i][j].block);
         }
       }
     }
