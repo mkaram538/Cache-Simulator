@@ -391,6 +391,7 @@ public:
       sets coldSet(coldLines);
       my_cache.push_back(coldSet);
     }
+    cout << "cache_cleared" << endl;
   }
 
   // TESTED

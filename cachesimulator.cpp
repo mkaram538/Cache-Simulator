@@ -88,10 +88,10 @@ int main(int argc, char** argv){
   //TESTED
   cout << "*** Welcome to the cache simulator ***" << endl;
   string filename = argv[1];
-  cout << "Initialize the RAM: " << endl;
+  cout << "initialize the RAM: " << endl;
   cout << "init-ram 0x00 0xff" << endl;
   Memory MyRam = Memory(filename);
-  cout << "ram succesfully initialized!" << endl;
+  cout << "ram successfully initialized!" << endl;
 
   //Cache configuring
   //variables
