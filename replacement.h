@@ -78,17 +78,20 @@ public:
       tail->uses++;
       return;
     }
+    current = head;
+    Node* node = current;
     while (current->next->index != search){
       current = current->next;
     }
-    current->next->uses++;
     //current->next->prev = current->prev;
     //current->prev->next = current->next;
-    current->next = current->next->next;
+    node = current->next;
+    current->next = node->next;
     //current->prev = tail;
-    current->next = nullptr;
-    tail->next = current;
-    tail = current;
+    tail->next = node;
+    node->next = nullptr;
+    tail = node;
+    tail->uses++;
   }
 
   // Used when a line is evicted
@@ -131,6 +134,14 @@ public:
       index++;
     }
     return min_index;
+  }
+
+  void print(){
+    Node* current = head;
+    while (current){
+      cout << "Index: " << current->index << " Uses: " << current->uses << endl;
+      current = current->next;
+    }
   }
 };
 
