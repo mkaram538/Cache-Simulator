@@ -98,7 +98,7 @@ public:
       current->uses = 0;
       return;
     } else if (tail->index == search){
-      current->uses = 0;
+      tail->uses = 0;
       return;
     }
     while (current->index != search){
@@ -119,7 +119,7 @@ public:
   int LFU() {
     Node* current = head;
     int min_occur = current->uses;
-    int min_index = 0;
+    int min_index = current->index;
     int index = 0;
     while (current->next){
       if (current->uses < min_occur){

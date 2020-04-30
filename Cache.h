@@ -127,7 +127,7 @@ public:
     for (int i = 0; i < set_size; i++) {
       coldLines.push_back(coldLine);
     }
-    
+
     for (int i = 0; i < num_sets; i++) {
       sets coldSet(coldLines);
       my_cache.push_back(coldSet);
@@ -210,7 +210,7 @@ public:
         string address = binaryTag + binaryIndex + binaryOffset;
         ram.writeBlock(BinaryToInt(address) / block_size, my_cache[set][lineNum].block);
       }
-      
+
       // Write the block retrieved from RAM to the line determined by the replacement policy
       for (int i = 0; i < block_size; i++) {
         my_cache[set][lineNum][i] = blockFromRam[i];
@@ -300,14 +300,12 @@ public:
               lineNum = 0;
             } else {
               lineNum = my_cache[set].repl.LRU();
-              my_cache[set].repl.access(lineNum);
             }
           } else if (repl_policy == 3) {
             if (set_size == 1){
               lineNum = 0;
             } else {
               lineNum = my_cache[set].repl.LFU();
-              my_cache[set].repl.access(lineNum);
             }
           }
         }
@@ -328,8 +326,10 @@ public:
         my_cache[set][lineNum].valid_bit = 1;
         my_cache[set][lineNum].dirty_bit = 0;
         my_cache[set][lineNum].tag_bit = tag;
-        my_cache[set].repl.clear(lineNum);
-
+        if (repl_policy == 2 || repl_policy == 3){
+          my_cache[set].repl.clear(lineNum);
+          my_cache[set].repl.access(lineNum);
+        }
         if (hit_policy == 1) { // write-through
           // Update cache
           my_cache[set][lineNum][block] = remove0x(data); // Updates specific byte in cache
