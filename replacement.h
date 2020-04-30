@@ -136,6 +136,7 @@ public:
     return min_index;
   }
 
+  // Used in testing
   void print(){
     Node* current = head;
     while (current){

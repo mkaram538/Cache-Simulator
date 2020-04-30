@@ -154,14 +154,9 @@ public:
       num_cache_hits++;
       int lineNum = my_cache[set].getLineIndexOfTag(tag);
       string readData = my_cache[set][lineNum][block];
-      my_cache[set].repl.print();
       if (repl_policy == 2 || repl_policy == 3) {
-        cout << "Line Number: " << lineNum << endl;
         my_cache[set].repl.access(lineNum);
       }
-      cout << endl;
-      my_cache[set].repl.print();
-
       cout << "set:" << set << endl;
       // Assuming tag is in base ten, otherwise change to BaseTentoHex(tag)
       cout << "tag:" << BaseTentoHexnoX(tag) << endl;
@@ -176,8 +171,6 @@ public:
       int lineNum; // Index of the line to replace, determined by the replacement policies
       // TODO: Replacement Policies
       bool empty_line = false;
-      cout << "Before replacement" << endl;
-      my_cache[set].repl.print();
       for (int i = 0; i < set_size; i++){
         if (my_cache[set][i].valid_bit == 0){
           lineNum = i;
@@ -209,9 +202,6 @@ public:
       } else {
         my_cache[set].repl.access(lineNum);
       }
-
-      cout << "After replacement" << endl;
-      my_cache[set].repl.print();
 
       // Prior to eviction, if dirty bit is set update RAM with this block.
       if (my_cache[set][lineNum].dirty_bit == 1) {
