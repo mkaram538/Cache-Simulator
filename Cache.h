@@ -180,7 +180,7 @@ public:
             my_cache[set].repl.clear(lineNum);
             my_cache[set].repl.access(lineNum);
           }
-        } else if (repl_policy == 3) {
+        } else if (repl_policy == 3) { // least_frequently_used
           if (set_size == 1){
             lineNum = 0;
           } else {
@@ -277,12 +277,14 @@ public:
               lineNum = 0;
             } else {
               lineNum = my_cache[set].repl.LRU();
+              my_cache[set].repl.access(lineNum);
             }
           } else if (repl_policy == 3) {
             if (set_size == 1){
               lineNum = 0;
             } else {
               lineNum = my_cache[set].repl.LFU();
+              my_cache[set].repl.access(lineNum);
             }
           }
         }
@@ -294,7 +296,6 @@ public:
         my_cache[set][lineNum].dirty_bit = 0;
         my_cache[set][lineNum].tag_bit = tag;
         my_cache[set].repl.clear(lineNum);
-        my_cache[set].repl.access(lineNum);
 
         if (hit_policy == 1) { // write-through
           // Update cache
