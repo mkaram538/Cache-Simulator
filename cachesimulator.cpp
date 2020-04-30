@@ -1,3 +1,11 @@
+// File: cachesimulator.cpp
+// Author(s): Matthew Karam, Saul Diosdado
+// Date: 04/23/2020
+// Section: 508
+// E-mail: sauldiosdado@tamu.edu
+// Description:
+// Driver for the entire program. Handles cache configuration inputs and initialzes Memory and Cache.
+
 #include <iostream>
 #include <string>
 

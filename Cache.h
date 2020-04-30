@@ -1,3 +1,11 @@
+// File: Cache.h
+// Author(s): Matthew Karam, Saul Diosdado
+// Date: 04/23/2020
+// Section: 508
+// E-mail: sauldiosdado@tamu.edu
+// Description:
+// Implements the actual cache simulator and makes use of helper functions and Memory class.
+
 #ifndef CACHE_H
 #define CACHE_H
 
@@ -119,8 +127,9 @@ public:
     for (int i = 0; i < set_size; i++) {
       coldLines.push_back(coldLine);
     }
-    sets coldSet(coldLines);
+    
     for (int i = 0; i < num_sets; i++) {
+      sets coldSet(coldLines);
       my_cache.push_back(coldSet);
     }
   }
@@ -145,7 +154,9 @@ public:
       num_cache_hits++;
       int lineNum = my_cache[set].getLineIndexOfTag(tag);
       string readData = my_cache[set][lineNum][block];
-      my_cache[set].repl.access(lineNum);
+      if (repl_policy == 2 || repl_policy == 3) {
+        my_cache[set].repl.access(lineNum);
+      }
 
       cout << "set:" << set << endl;
       // Assuming tag is in base ten, otherwise change to BaseTentoHex(tag)
@@ -228,7 +239,9 @@ public:
       // Hit, both the tag matched and the valid bit was 1.
       num_cache_hits++;
       int lineNum = my_cache[set].getLineIndexOfTag(tag);
-      my_cache[set].repl.access(lineNum);
+      if (repl_policy == 2 || repl_policy == 3) {
+        my_cache[set].repl.access(lineNum);
+      }
       bool dirtyBitChange = false;
 
       if (hit_policy == 1) { // write-through
@@ -329,6 +342,15 @@ public:
   }
   //TESTED
   void flush() {
+    // Write all of the dirty bit lines back to RAM
+    for (int i = 0; i < num_sets; i++) {
+      for (int j = 0; j < set_size; j++) {
+        if (my_cache[i][j].dirty_bit == 1) {
+
+        }
+      }
+    }
+
     my_cache.clear();
     // The following initializes a cold cache, where each line has no data and valid bit = 0
     vector<string> emptyBlock(block_size); // Empty vector with size = block_size
@@ -340,8 +362,8 @@ public:
     for (int i = 0; i < set_size; i++) {
       coldLines.push_back(coldLine);
     }
-    sets coldSet(coldLines);
     for (int i = 0; i < num_sets; i++) {
+      sets coldSet(coldLines);
       my_cache.push_back(coldSet);
     }
   }

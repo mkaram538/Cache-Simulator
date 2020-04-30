@@ -1,3 +1,11 @@
+// File: Memory.h
+// Author(s): Matthew Karam, Saul Diosdado
+// Date: 04/23/2020
+// Section: 508
+// E-mail: sauldiosdado@tamu.edu
+// Description:
+// Holds the entire RAM space.
+
 #ifndef MEMORY_H
 #define MEMORY_H
 

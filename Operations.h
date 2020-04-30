@@ -1,3 +1,11 @@
+// File: Opeations.h
+// Author(s): Matthew Karam, Saul Diosdado
+// Date: 04/23/2020
+// Section: 508
+// E-mail: sauldiosdado@tamu.edu
+// Description:
+// Used to declare and define helper functions that are used throughout the project.
+
 #ifndef OPERATIONS_H
 #define OPERATIONS_H
 
