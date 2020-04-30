@@ -23,7 +23,7 @@ struct Node
   int index;
   int uses;
   Node* next = nullptr;
-  Node* prev = nullptr;
+  //Node* prev = nullptr;
 
   Node (int line_index){
     index = line_index;
@@ -53,9 +53,9 @@ public:
     else if (!head->next){
       tail = current;
       head->next = tail;
-      tail->prev = head;
+      //tail->prev = head;
     } else {
-      current->prev = tail;
+      //current->prev = tail;
       tail->next = current;
       tail = current;
     }
@@ -66,23 +66,23 @@ public:
     if (head->index == search){
       head = current->next;
       current->next = nullptr;
-      current->prev = tail;
+      //current->prev = tail;
       tail->next = current;
       tail = current;
       current->uses++;
       return;
     } else if (tail->index == search){
-      current->uses++;
+      tail->uses++;
       return;
     }
-    while (current->index != search){
+    while (current->next->index != search){
       current = current->next;
     }
-    current->uses++;
-    current->next->prev = current->prev;
-    current->prev->next = current->next;
-
-    current->prev = tail;
+    current->next->uses++;
+    //current->next->prev = current->prev;
+    //current->prev->next = current->next;
+    current->next = current->next->next;
+    //current->prev = tail;
     current->next = nullptr;
     tail->next = current;
     tail = current;

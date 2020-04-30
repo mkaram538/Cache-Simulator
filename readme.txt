@@ -6,8 +6,8 @@
 // Description:
 // Explanation on compilation and execution of the program
 
-Compile: g++ cachesimulator.cpp -o out
-Execute: ./out "filename"
+Compile: g++ cachesimulator.cpp -o cachesimulator.out
+Execute: ./cachesimulator.out "filename"
 
 User inputs:
 1. cache-size (integer)
