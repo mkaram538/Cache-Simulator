@@ -63,7 +63,10 @@ public:
 
   void access(int search){
     Node* current = head;
-    if (head->index == search){
+    if (head == tail){
+      head->uses++;
+      return;
+    } else if (head->index == search){ //happens when size == 1
       head = current->next;
       current->next = nullptr;
       //current->prev = tail;
