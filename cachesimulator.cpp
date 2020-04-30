@@ -77,7 +77,7 @@ int menu(Memory & ram, Cache & cache){ //Should also take in a cache object, whe
     // This will be a condtional that ends the loop of calling menu().
     return 0;
   } else {
-    cout << "Error: invalid choice" << endl;
+    cout << "Error: invalid choice" << endl;  // if user doesn't type in one of the given choices
   }
 
   return 0;

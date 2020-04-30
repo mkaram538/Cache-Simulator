@@ -63,10 +63,10 @@ public:
 
   void access(int search){
     Node* current = head;
-    if (head == tail){
+    if (head == tail){//happens when size == 1
       head->uses++;
       return;
-    } else if (head->index == search){ //happens when size == 1
+    } else if (head->index == search){
       head = current->next;
       current->next = nullptr;
       //current->prev = tail;
@@ -91,6 +91,7 @@ public:
     tail = current;
   }
 
+  // Used when a line is evicted
   void clear(int search){
     Node* current = head;
     if (head->index == search){
@@ -106,11 +107,15 @@ public:
     current->uses = 0;
   }
 
-  //TESTED
+  // TESTED, the way the linked_list is set up, the only way that there
+  // would be equal values is if it was in the beginning, and those lines
+  // are already in order based on index
   int LRU() {
     return head->index;
   }
 
+  // Finds the line with the smallest number of uses, favoring the line with
+  // the lower index.
   int LFU() {
     Node* current = head;
     int min_occur = current->uses;
