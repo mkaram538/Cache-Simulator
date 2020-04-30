@@ -149,7 +149,7 @@ public:
 
       cout << "set:" << set << endl;
       // Assuming tag is in base ten, otherwise change to BaseTentoHex(tag)
-      cout << "tag:" << tag << endl;
+      cout << "tag:" << BaseTentoHexnoX(tag) << endl;
       cout << "hit:yes" << endl;
       cout << "eviction_line:-1" << endl;
       cout << "ram_address:-1" << endl;
@@ -202,7 +202,7 @@ public:
 
       cout << "set:" << set << endl;
       // Assuming tag is in base ten, otherwise change to BaseTentoHex(tag)
-      cout << "tag:" << tag << endl;
+      cout << "tag:" << BaseTentoHexnoX(tag) << endl;
       cout << "hit:no" << endl;
       cout << "eviction_line:" << lineNum << endl;
       cout << "ram_address:" << address << endl;
@@ -247,7 +247,7 @@ public:
 
       cout << "set:" << set << endl;
       // Assuming tag is in base ten, otherwise change to BaseTentoHex(tag)
-      cout << "tag:" << tag << endl;
+      cout << "tag:" << BaseTentoHexnoX(tag) << endl;
       cout << "write_hit:yes" << endl;
       cout << "eviction_line:-1" << endl;
       cout << "ram_address:-1" << endl;
@@ -318,7 +318,7 @@ public:
       }
       cout << "set:" << set << endl;
       // Assuming tag is in base ten, otherwise change to BaseTentoHex(tag)
-      cout << "tag:" << tag << endl;
+      cout << "tag:" << BaseTentoHexnoX(tag) << endl;
       cout << "write_hit:no" << endl;
       cout << "eviction_line:" << lineNum << endl;
       cout << "ram_address:" << address << endl;
