@@ -1,10 +1,10 @@
 // File: replacement.h
 // Author(s): Matthew Karam, Saul Diosdado
 // Date: 04/23/2020
-// Section: 508
-// E-mail: sauldiosdado@tamu.edu
+// E-mail: mkaram538@tamu.edu, sauldiosdado@tamu.edu
 // Description:
 // Implements both LFU and LRU replacement policies.
+// This project assignment was designed by Dr. David Kebo for the class CSCE 312: Computer Organization
 
 #ifndef REPLACEMENT_H
 #define REPLACEMENT_H
