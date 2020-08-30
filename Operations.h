@@ -1,10 +1,10 @@
 // File: Opeations.h
 // Author(s): Matthew Karam, Saul Diosdado
 // Date: 04/23/2020
-// Section: 508
-// E-mail: sauldiosdado@tamu.edu
+// E-mail: mkaram538@tamu.edu, sauldiosdado@tamu.edu
 // Description:
 // Used to declare and define helper functions that are used throughout the project.
+// This project assignment was designed by Dr. David Kebo for the class CSCE 312: Computer Organization
 
 #ifndef OPERATIONS_H
 #define OPERATIONS_H
