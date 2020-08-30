@@ -1,10 +1,10 @@
 // File: Cache.h
 // Author(s): Matthew Karam, Saul Diosdado
 // Date: 04/23/2020
-// Section: 508
-// E-mail: sauldiosdado@tamu.edu
+// E-mail: mkaram538@tamu.edu, sauldiosdado@tamu.edu
 // Description:
 // Implements the actual cache simulator and makes use of helper functions and Memory class.
+// This project assignment was designed by Dr. David Kebo for the class CSCE 312: Computer Organization
 
 #ifndef CACHE_H
 #define CACHE_H
